@@ -9,7 +9,7 @@ import {
   RocketIcon,
   SaveIcon,
 } from "lucide-react";
-import useUpload from "@/hooks/useUpload";
+import useUpload, { StatusText } from "@/hooks/useUpload";
 import { useRouter } from "next/navigation";
 
 function FileUploader() {
@@ -33,6 +33,22 @@ function FileUploader() {
       //toast
     }
   }, []);
+
+  const statusIcons: {
+    [kye in StatusText]: JSX.Element;
+  } = {
+    [StatusText.UPLOADING]: (
+      <RocketIcon className="h-20 w-20 text-indigo-600" />
+    ),
+    [StatusText.UPLOADED]: (
+      <CheckCircleIcon className="h-20 w-20 text-indigo-600" />
+    ),
+    [StatusText.SAVING]: <SaveIcon className="h-20 w-20 text-indigo-600" />,
+    [StatusText.GENERATING]: (
+      <HammerIcon className="h-20 w-20 text-indigo-600" />
+    ),
+  };
+
   const { getRootProps, getInputProps, isDragActive, isFocused, isDragAccept } =
     useDropzone({
       onDrop,
@@ -46,17 +62,27 @@ function FileUploader() {
   return (
     <div className="flex flex-col gap-4 items-center max-w-7xl mx-auto">
       {uploadInProgress && (
-        <div>
+        <div className="mt-32 flex flex-col justify-center items-center gap-5">
           <div
             className={`radial-progress bg-indigo-300 text-white border-indigo-600 border-4 ${
               progress === 100 && "hidden"
             }`}
+            role="progressbar"
+            style={{
+              // @ts-ignore
+              "--value": progress,
+              "--size": "12rem",
+              "--thickness": "1.3rem",
+            }}
           >
             {progress} %
           </div>
-
+          {
+            //@ts-ignore
+            statusIcons[status!]
+          }
           {/* @ts-ignore */}
-          <p>{status}</p>
+          <p className="text-indigo-600 animate-pulse">{status}</p>
         </div>
       )}
       <div

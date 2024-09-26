@@ -85,27 +85,29 @@ function FileUploader() {
           <p className="text-indigo-600 animate-pulse">{status}</p>
         </div>
       )}
-      <div
-        {...getRootProps()}
-        className={`p-10 border-2 border-dashed mt-10 w-[90%] border-indigo-600 
+      {!uploadInProgress && (
+        <div
+          {...getRootProps()}
+          className={`p-10 border-2 border-dashed mt-10 w-[90%] border-indigo-600 
             text-indigo-600 rounded-lg h-96 flex items-center justify-center
             ${isFocused || isDragAccept ? "bg-indigo-300" : "bg-indigo-100"}`}
-      >
-        <div className="flex flex-col items-center justify-center">
-          <input {...getInputProps()} />
-          {isDragActive ? (
-            <>
-              <RocketIcon className="h-20 w-20 animate-ping" />
-              <p>Drop the files here ...</p>
-            </>
-          ) : (
-            <>
-              <CircleArrowDown className="h-20 w-20 animate-bounce" />
-              <p>Drag 'n' drop some files here, or click to select files</p>
-            </>
-          )}
+        >
+          <div className="flex flex-col items-center justify-center">
+            <input {...getInputProps()} />
+            {isDragActive ? (
+              <>
+                <RocketIcon className="h-20 w-20 animate-ping" />
+                <p>Drop the files here ...</p>
+              </>
+            ) : (
+              <>
+                <CircleArrowDown className="h-20 w-20 animate-bounce" />
+                <p>Drag 'n' drop some files here, or click to select files</p>
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

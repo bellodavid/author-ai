@@ -12,9 +12,9 @@ import Link from "next/link";
 
 const features = [
   {
-    name: "Store you PDF Documents",
+    name: "Store all your Documents",
     description:
-      "Keep all your important PDF files securely stored and easily accessible anytime, anywhere.",
+      "Keep all your important document files securely stored and easily accessible anytime, anywhere.",
     icon: GlobeIcon,
   },
   {
@@ -30,9 +30,9 @@ const features = [
     icon: BrainCogIcon,
   },
   {
-    name: "Interactive PDF Viewer",
+    name: "Interactive Document Viewer",
     description:
-      "Engage with your PDFs like never before using our intuitive and interactive viewer.",
+      "Engage with your Documents like never before using our intuitive and interactive viewer.",
     icon: EyeIcon,
   },
   {
@@ -44,7 +44,7 @@ const features = [
   {
     name: "Responsive Across Devices",
     description:
-      "Access and chat with all your PDFs seemlessly on any device, whether it's your desktop, tablet or smartphone.",
+      "Access and chat with all your Documents seemlessly on any device, whether it's your desktop, tablet or smartphone.",
     icon: MonitorSmartphoneIcon,
   },
 ];
@@ -59,20 +59,22 @@ export default function Home() {
               Your Interactive Dcoument Companion
             </h2>
             <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-              Transform Your PDFs into Interactive Conversations
+              Transform Your eBook into Interactive Conversations
             </p>
             <p className="mt-6 text-lg leading-8 text-gray-600">
               Introducing{" "}
-              <span className="font-bold text-indigo-600">Chat with PDF.</span>
+              <span className="font-bold text-indigo-600">Skeptic AI</span>
               <br />
               <br /> Upload your document, and our chatbot will answer
-              questions, summarize content, and answer all your Qs. Ideal for
-              everyone, <span className="text-indigo-600">
-                Chat with PDF
+              questions, summarize content, and address all your queries. Ideal
+              for everyone, <span className="text-indigo-600">
+                Skeptic AI
               </span>{" "}
-              turns static document into{" "}
-              <span className="font-bold"> dynamic conversations</span>,
-              enhancing productivity 10x fold effortlessly.
+              transforms static documents into{" "}
+              <span className="font-bold">dynamic conversations</span>,
+              effortlessly enhancing productivity by 10x. In addition, you can
+              generate images and video content from your documents, expanding
+              creativity and engagement.
             </p>
           </div>
           <Button asChild className="mt-10">

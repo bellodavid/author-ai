@@ -101,7 +101,7 @@ export default function Home() {
           lg:mx-0 lg:max-w-none lg:grid-cols-3 lg:gap-x-8 lg:gap-y-16"
           >
             {features.map((feature) => (
-              <div className="relative pl-9">
+              <div key={feature.name} className="relative pl-9">
                 <dt className="inline font-semibold text-gray-900">
                   <feature.icon
                     aria-hidden="true"

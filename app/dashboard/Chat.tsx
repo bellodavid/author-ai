@@ -10,6 +10,8 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { useUser } from "@clerk/nextjs";
 import { collection, orderBy, query } from "firebase/firestore";
 import { db } from "@/firebase";
+import { askQuestion } from "@/actions/askQuestion";
+//import { ChatMessage } from "@langchain/core/messages";
 
 export type Message = {
   id?: string;
@@ -39,6 +41,26 @@ function Chat({ id }: { id: string }) {
 
     //get second last message to check if the AI is thinking
     const lastMessage = messages.pop();
+
+    if (lastMessage?.role === "ai" && lastMessage.message === "Thinking...") {
+      // return as this is a dummy placeholder message
+      return;
+    }
+
+    const newMessages = snapshot.docs.map((doc) => {
+      const { role, message, createdAt } = doc.data();
+
+      return {
+        id: doc.id,
+        role,
+        message,
+        createdAt: createdAt.toDate(),
+      };
+    });
+
+    setMessages(newMessages);
+
+    //Ignore messages dependency warning here... we don't want an infinit loop
   }, [snapshot]);
 
   const handleSubmit = async (e: FormEvent) => {
@@ -80,7 +102,28 @@ function Chat({ id }: { id: string }) {
   return (
     <div className="flex flex-col h-full overflow-scroll">
       {/* chat content */}
-      <div className="flex-1 w-full">{/* ChatMessages */}</div>
+      <div className="flex-1 w-full">
+        {/* Chat Messages */}
+
+        {loading ? (
+          <div className="flex items-center justify-center">
+            <Loader2Icon className="animate-spin h-20 w-20 text-indigo-600 mt-20" />
+          </div>
+        ) : (
+          <div>
+            {messages.length === 0 && (
+              <ChatMessage
+                key={"placeholder"}
+                message={{
+                  role: "ai",
+                  message: "Ask me anything about the document!",
+                  createdAt: new Date(),
+                }}
+              />
+            )}
+          </div>
+        )}
+      </div>
       <form
         onSubmit={handleSubmit}
         className="flex sticky bottom-0 space-x-2 p-5 bg-indigo-600/75"

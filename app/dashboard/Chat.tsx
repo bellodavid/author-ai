@@ -5,12 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 //import {askQuestion, Message} from "@/actions/askQuestion";
 import { Loader2Icon } from "lucide-react";
-//import { ChatMessage } from "./ChatMessage";
+
 import { useCollection } from "react-firebase-hooks/firestore";
 import { useUser } from "@clerk/nextjs";
 import { collection, orderBy, query } from "firebase/firestore";
 import { db } from "@/firebase";
 import { askQuestion } from "@/actions/askQuestion";
+import ChatMessage from "./ChatMessage";
 //import { ChatMessage } from "@langchain/core/messages";
 
 export type Message = {
@@ -25,6 +26,7 @@ function Chat({ id }: { id: string }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isPending, startTransition] = useTransition();
   const [input, setInput] = useState("");
+  const bottomOfChatRef = useRef<HTMLDivElement>(null);
 
   const [snapshot, loading, error] = useCollection(
     user &&
@@ -33,6 +35,12 @@ function Chat({ id }: { id: string }) {
         orderBy("createdAt", "asc")
       )
   );
+
+  useEffect(() => {
+    bottomOfChatRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, [messages]);
 
   useEffect(() => {
     if (!snapshot) return;
@@ -110,7 +118,7 @@ function Chat({ id }: { id: string }) {
             <Loader2Icon className="animate-spin h-20 w-20 text-indigo-600 mt-20" />
           </div>
         ) : (
-          <div>
+          <div className="p-5">
             {messages.length === 0 && (
               <ChatMessage
                 key={"placeholder"}
@@ -121,6 +129,12 @@ function Chat({ id }: { id: string }) {
                 }}
               />
             )}
+
+            {messages.map((message, index) => (
+              <ChatMessage key={index} message={message} />
+            ))}
+
+            <div ref={bottomOfChatRef} />
           </div>
         )}
       </div>
